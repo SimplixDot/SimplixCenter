@@ -277,7 +277,7 @@ public class MainActivity extends AppCompatActivity {
                 else if(position == 4) {
                     final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                     builder.setTitle("Changelog");
-                    builder.setMessage("What's new in Beta 1.7.3 for tissot:\n" +
+                    builder.setMessage("What's new in Beta 1.7.3 for "+DeviceName.getDeviceInfo(MainActivity.this).codename+"\n" +
                             "- Redesigned About Phone page\n" +
                             "- When QS Tile Titles are hidden, long pressing a tile will now open detail view\n" +
                             "- \"Simplix.\" rebrand to just \"Simplix\" is now more noticeable throughout the UI\n" +
