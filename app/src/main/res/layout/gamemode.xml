@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF">
+
+    <ImageView
+        android:id="@+id/image_gamemode"
+        android:layout_width="300dp"
+        android:layout_height="200dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="32dp"
+        android:src="@drawable/ic_gamemode_header" />
+
+    <TextView
+        android:id="@+id/title_gamemode"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+
+        android:layout_alignParentTop="true"
+
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="279dp"
+        android:text="Game Mode"
+        android:textColor="#000"
+        android:textSize="40dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/description_gamemode"
+        android:layout_width="323dp"
+        android:layout_height="wrap_content"
+
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="366dp"
+
+        android:text="Game Mode will hide all peeking notifications when you play your favorite games. All you have to do is flip the Quick Setting toggle and enjoy the immersive gaming experience."
+        android:textAlignment="center"
+        android:textColor="#000"
+        android:textSize="16dp" />
+
+    <Button
+        android:id="@+id/dismiss_gamemode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="48dp"
+        android:background="#4a86e8"
+        android:text="Got it!"
+        android:textColor="#FFF"
+        android:textStyle="bold" />
+
+</RelativeLayout>
