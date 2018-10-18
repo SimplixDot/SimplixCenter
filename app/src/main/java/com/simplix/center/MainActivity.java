@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
     String[] subtitle = {
             "Check for updates", "Pick one of our wallpapers",
             "Leave a feedback or request a feature", "Before you ask anything, check this list first",
-            "Simplix Blue Beta 2.0",
+            "Simplix Blue Beta 2.0.2",
     };
 
     Integer[] imgid = {
@@ -185,7 +185,7 @@ public class MainActivity extends AppCompatActivity {
                                                                         return;
                                                                     }
                                                                     dwd=result3;
-                                                                    if (latest.toLowerCase().contains("beta 2.0.0"))
+                                                                    if (latest.toLowerCase().contains("beta 2.0.2"))
                                                                     {
                                                                         builder.setTitle("Simplix Updates");
                                                                         builder.setMessage("You already have the latest version installed on your phone.");
@@ -204,7 +204,7 @@ public class MainActivity extends AppCompatActivity {
                                                                     {
                                                                         progress.dismiss();
                                                                         Intent intent = new Intent(MainActivity.this, download.class);
-                                                                        intent.putExtra("version", "Beta 2.0");
+                                                                        intent.putExtra("version", "Beta 2.0.2");
                                                                         intent.putExtra("device",DeviceName.getDeviceInfo(MainActivity.this).codename);
                                                                         intent.putExtra("uring", uring);
                                                                         intent.putExtra("update", latest);
