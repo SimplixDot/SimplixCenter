@@ -1,11 +1,15 @@
 package com.simplix.center;
 
 import android.annotation.SuppressLint;
+import android.graphics.Color;
+import android.graphics.LinearGradient;
+import android.graphics.Shader;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextPaint;
 import android.view.View;
 import android.widget.TextView;
 
@@ -19,6 +23,20 @@ public class faq extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.content_faq);
+
+        TextView textView;
+        textView = (TextView) findViewById(R.id.faq_title);
+
+        TextPaint paint = textView.getPaint();
+        float width = paint.measureText(textView.getText().toString());
+
+        Shader textShader = new LinearGradient(0, 0, width, textView.getTextSize(),
+                new int[]{
+                        Color.parseColor("#C521FF"),
+                        Color.parseColor("#4666FF"),
+                }, null, Shader.TileMode.CLAMP);
+        textView.getPaint().setShader(textShader);
+
         Ion.with(getApplicationContext())
                 .load("https://raw.githubusercontent.com/SimplixDot/platform_vendor_ota/pie/faq.txt")
                 .asString()
@@ -41,9 +59,33 @@ public class faq extends AppCompatActivity {
                                     "\n" +
                                     "Q: What is the difference between the Beta ring and the Stable ring?\n" +
                                     "A: If glitches are expected from time to time, the build belongs to the Beta ring. Beta builds are still usable for daily driver. If no issues get in your way overall throughout your experience, the build belongs to the Stable ring. Can't wait for new features and don't mind a few bugs? Join the Beta ring.");
+
+                            TextPaint paint = faq.getPaint();
+                            float width = 600;
+
+                            Shader textShader = new LinearGradient(0, 0, width, faq.getTextSize(),
+                                    new int[]{
+                                            Color.parseColor("#C521FF"),
+                                            Color.parseColor("#4666FF"),
+                                    }, null, Shader.TileMode.CLAMP);
+                            faq.getPaint().setShader(textShader);
+
+                            faq = (TextView) findViewById(R.id.changelog2);
                         } else {
                             TextView faq = (TextView) findViewById(R.id.faq);
                             faq.setText(result1);
+
+                            TextPaint paint = faq.getPaint();
+                            float width = 600;
+
+                            Shader textShader = new LinearGradient(0, 0, width, faq.getTextSize(),
+                                    new int[]{
+                                            Color.parseColor("#C521FF"),
+                                            Color.parseColor("#4666FF"),
+                                    }, null, Shader.TileMode.CLAMP);
+                            faq.getPaint().setShader(textShader);
+
+                            faq = (TextView) findViewById(R.id.changelog2);
                         }
 
                     }

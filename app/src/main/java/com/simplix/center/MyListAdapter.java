@@ -1,6 +1,10 @@
 package com.simplix.center;
 
 import android.app.Activity;
+import android.graphics.Color;
+import android.graphics.LinearGradient;
+import android.graphics.Shader;
+import android.text.TextPaint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +37,26 @@ public class MyListAdapter extends ArrayAdapter<String> {
         TextView titleText = (TextView) rowView.findViewById(R.id.textView2);
         ImageView imageView = (ImageView) rowView.findViewById(R.id.imageView);
         TextView subtitleText = (TextView) rowView.findViewById(R.id.textView);
+
+        TextPaint paint = titleText.getPaint();
+        float width = paint.measureText(titleText.getText().toString());
+
+        Shader textShader = new LinearGradient(0, 0, width, titleText.getTextSize(),
+                new int[]{
+                        Color.parseColor("#C521FF"),
+                        Color.parseColor("#4666FF"),
+                }, null, Shader.TileMode.CLAMP);
+        titleText.getPaint().setShader(textShader);
+
+        paint = subtitleText.getPaint();
+        width = paint.measureText(subtitleText.getText().toString());
+
+        textShader = new LinearGradient(0, 0, width, subtitleText.getTextSize(),
+                new int[]{
+                        Color.parseColor("#C521FF"),
+                        Color.parseColor("#4666FF"),
+                }, null, Shader.TileMode.CLAMP);
+        subtitleText.getPaint().setShader(textShader);
 
         titleText.setText(maintitle[position]);
         imageView.setImageResource(imgid[position]);

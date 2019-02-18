@@ -11,6 +11,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.LinearGradient;
+import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.net.Uri;
@@ -22,6 +25,9 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.BoringLayout;
+import android.text.Layout;
+import android.text.TextPaint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -54,21 +60,18 @@ public class MainActivity extends AppCompatActivity {
 
 
     String[] maintitle = {
-            "System Update", "Wallpapers",
-            "Telegram Group", "Frequently Asked Questions",
-            "About OS",
+            "System Update", "Telegram Group",
+            "Frequently Asked Questions", "About OS",
     };
 
     String[] subtitle = {
-            "Check for updates", "Pick one of our wallpapers",
-            "Leave a feedback or request a feature", "Before you ask anything, check this list first",
-            "Simplix Blue Beta 2.0.2",
+            "Check for updates", "Leave a feedback or request a feature",
+            "Before you ask anything, check this list first", "Simplix One x Essential Feature Pack",
     };
 
     Integer[] imgid = {
-            R.drawable.ic_system_update_black_24dp, R.drawable.ic_wallpaper_black_24dp,
-            R.drawable.ic_group_black_24dp, R.drawable.ic_question_answer_black_24dp,
-            R.drawable.ic_info_black_24dp,
+            R.drawable.ic_system_update, R.drawable.ic_telegram_group,
+            R.drawable.ic_faq, R.drawable.ic_about_os,
     };
 
     AlertDialog alertDialog1;
@@ -89,6 +92,20 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        TextView textView;
+        textView = (TextView) findViewById(R.id.app_title);
+
+        TextPaint paint = textView.getPaint();
+        float width = paint.measureText(textView.getText().toString());
+
+        Shader textShader = new LinearGradient(0, 0, width, textView.getTextSize(),
+                new int[]{
+                        Color.parseColor("#C521FF"),
+                        Color.parseColor("#4666FF"),
+                }, null, Shader.TileMode.CLAMP);
+        textView.getPaint().setShader(textShader);
+
 
         SharedPreferences sharedPref = MainActivity.this.getPreferences(Context.MODE_PRIVATE);
         uchannel = sharedPref.getInt("Channel", 0);
@@ -118,114 +135,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if(position == 0) {
-                    final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-
-                    progress = ProgressDialog.show(MainActivity.this, "System Update",
-                            "Checking for updates...", true);
-
-                    Ion.with(getApplicationContext())
-                            .load("https://raw.githubusercontent.com/SimplixDot/platform_vendor_ota/pie/"+DeviceName.getDeviceInfo(MainActivity.this).codename+"/"+"latest-"+uring+".txt")
-                            .asString()
-                            .setCallback(new FutureCallback<String>() {
-                                @Override
-                                public void onCompleted(Exception e, String result1) {
-                                    if (e != null || result1.toLowerCase().contains("fail") || result1.toLowerCase().contains("404: not found")) {
-                                        progress.dismiss();
-                                        builder.setTitle("Simplix Updates");
-                                        builder.setMessage("There was a problem retrieving updates for the selected channel.");
-                                        builder.setPositiveButton("OK", new Dialog.OnClickListener() {
-
-                                            public void onClick(DialogInterface arg0, int arg1){
-                                                alertDialog2.dismiss();
-                                            }
-
-                                        });
-                                        alertDialog2 = builder.create();
-                                        alertDialog2.show();
-                                        return;
-                                    }
-                                    latest=result1;
-                                    Ion.with(getApplicationContext()).load("https://raw.githubusercontent.com/SimplixDot/platform_vendor_ota/pie/"+DeviceName.getDeviceInfo(MainActivity.this).codename+"/"+"changelog-"+uring+".txt").asString()
-                                            .setCallback(new FutureCallback<String>() {
-                                                @Override
-                                                public void onCompleted(Exception e, String result2) {
-                                                    if (e != null || result2.toLowerCase().contains("fail") || result2.toLowerCase().contains("404: not found")) {
-                                                        progress.dismiss();
-                                                        builder.setTitle("Simplix Updates");
-                                                        builder.setMessage("There was a problem retrieving updates for the selected channel.");
-                                                        builder.setPositiveButton("OK", new Dialog.OnClickListener() {
-
-                                                            public void onClick(DialogInterface arg0, int arg1){
-                                                                alertDialog2.dismiss();
-                                                            }
-
-                                                        });
-                                                        alertDialog2 = builder.create();
-                                                        alertDialog2.show();
-                                                        return;
-                                                    }
-                                                    changelog=result2;
-                                                    Ion.with(getApplicationContext()).load("https://raw.githubusercontent.com/SimplixDot/platform_vendor_ota/pie/"+DeviceName.getDeviceInfo(MainActivity.this).codename+"/"+"download-"+uring+".txt").asString()
-                                                            .setCallback(new FutureCallback<String>() {
-                                                                @Override
-                                                                public void onCompleted(Exception e, String result3) {
-                                                                    if (e != null || result3.toLowerCase().contains("fail") || result3.toLowerCase().contains("404: not found")) {
-                                                                        progress.dismiss();
-                                                                        builder.setTitle("Simplix Updates");
-                                                                        builder.setMessage("There was a problem retrieving updates for the selected channel.");
-                                                                        builder.setPositiveButton("OK", new Dialog.OnClickListener() {
-
-                                                                            public void onClick(DialogInterface arg0, int arg1){
-                                                                                alertDialog2.dismiss();
-                                                                            }
-
-                                                                        });
-                                                                        alertDialog2 = builder.create();
-                                                                        alertDialog2.show();
-                                                                        return;
-                                                                    }
-                                                                    dwd=result3;
-                                                                    if (latest.toLowerCase().contains("beta 2.0.2"))
-                                                                    {
-                                                                        builder.setTitle("Simplix Updates");
-                                                                        builder.setMessage("You already have the latest version installed on your phone.");
-                                                                        builder.setPositiveButton("OK", new Dialog.OnClickListener() {
-
-                                                                            public void onClick(DialogInterface arg0, int arg1){
-                                                                                alertDialog2.dismiss();
-                                                                            }
-
-                                                                        });
-                                                                        progress.dismiss();
-                                                                        alertDialog2 = builder.create();
-                                                                        alertDialog2.show();
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                        progress.dismiss();
-                                                                        Intent intent = new Intent(MainActivity.this, download.class);
-                                                                        intent.putExtra("version", "Beta 2.0.2");
-                                                                        intent.putExtra("device",DeviceName.getDeviceInfo(MainActivity.this).codename);
-                                                                        intent.putExtra("uring", uring);
-                                                                        intent.putExtra("update", latest);
-                                                                        intent.putExtra("dwd", dwd);
-                                                                        startActivity(intent);
-                                                                    }
-                                                                }
-                                                            });
-                                                }
-                                            });
-                                }
-                            });
-
+                    Intent intent = getPackageManager().getLaunchIntentForPackage("com.simplixone.ota");
+                    startActivity(intent);
                 }
 
                 else if(position == 1) {
-                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://drive.google.com/open?id=1cffU1vJ7EvILQKsqbGkITKooN6JgHrpm"));
-                    startActivity(browserIntent);
-                }
-
-                else if(position == 2) {
                     final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                     builder.setTitle("Simplix Community");
                     builder.setMessage("We have discussion group and updates channel.");
@@ -256,12 +170,12 @@ public class MainActivity extends AppCompatActivity {
 
                 }
 
-                else if(position == 3) {
+                else if(position == 2) {
                     Intent intent = new Intent(MainActivity.this, faq.class);
                     startActivity(intent);
                 }
 
-                else if(position == 4) {
+                else if(position == 3) {
                     Intent intent = new Intent(MainActivity.this, About.class);
                     startActivity(intent);
                 }
@@ -269,65 +183,6 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
-        FloatingActionButton website = (FloatingActionButton) findViewById(R.id.web_fab);
-        website.setOnClickListener(new View.OnClickListener() {
-
-
-            @Override
-            public void onClick(View view) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://simplixdot.github.io"));
-                startActivity(browserIntent);
-
-            }
-
-
-        });
-
-        FloatingActionButton change = (FloatingActionButton) findViewById(R.id.change);
-        change.setOnClickListener(new View.OnClickListener() {
-
-
-            @Override
-            public void onClick(View view) {
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-
-                builder.setTitle("Select your update channel");
-
-                builder.setSingleChoiceItems(values, uchannel, new DialogInterface.OnClickListener() {
-
-                    public void onClick(DialogInterface dialog, int item) {
-
-                        switch (item) {
-                            case 0:
-                                SharedPreferences sharedPref = MainActivity.this.getPreferences(Context.MODE_PRIVATE);
-                                SharedPreferences.Editor editor = sharedPref.edit();
-                                editor.putInt("Channel", 0);
-                                editor.commit();
-                                break;
-                            case 1:
-                                SharedPreferences sharedPref2 = MainActivity.this.getPreferences(Context.MODE_PRIVATE);
-                                SharedPreferences.Editor editor2 = sharedPref2.edit();
-                                editor2.putInt("Channel", 1);
-                                editor2.commit();
-                                break;
-
-                        }
-                        SharedPreferences sharedPref = MainActivity.this.getPreferences(Context.MODE_PRIVATE);
-                        uchannel = sharedPref.getInt("Channel", 0);
-                        if (uchannel==0) uring="Beta";
-                        else if (uchannel==1) uring="Stable";
-                        alertDialog1.dismiss();
-                    }
-                });
-                alertDialog1 = builder.create();
-                alertDialog1.show();
-            }
-
-
-        });
-
 
 
 
